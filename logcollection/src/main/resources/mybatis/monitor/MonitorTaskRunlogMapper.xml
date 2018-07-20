@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.job.mapper.MonitorTaskRunlogMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.job.entity.MonitorTaskRunlog" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="RUNID" property="runid" jdbcType="DECIMAL" />
+    <result column="RWBH" property="rwbh" jdbcType="CHAR" />
+    <result column="KSSJ" property="kssj" jdbcType="TIMESTAMP" />
+    <result column="JSSJ" property="jssj" jdbcType="TIMESTAMP" />
+    <result column="YXJG" property="yxjg" jdbcType="CHAR" />
+    <result column="YXSC" property="yxsc" jdbcType="DECIMAL" />
+    <result column="WARNID" property="warnid" jdbcType="DECIMAL" />
+    <result column="TASKINFO" property="taskinfo" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    RUNID, RWBH, KSSJ, JSSJ, YXJG, YXSC
+  </sql>
+  
+  <select id="selectNextKey" resultType="long" >
+    select bm_task_runlog_seq.nextval from dual
+  </select>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select mtr.*,mw.warnid from  bus_monitor_task_runlog mtr
+    left join bus_monitor_warn mw on mtr.runid = mw.runid
+    where 1=1
+    <if test="rwbh!=null and rwbh!=''">
+      and mtr.rwbh = #{rwbh}
+    </if>
+    <if test="yxjg!=null and yxjg!=''">
+      and mtr.yxjg = #{yxjg}
+    </if>
+    <if test="warnid!=null and warnid!=''">
+      and mw.warnid = #{warnid}
+    </if>
+    order by mtr.kssj desc
+  </select>
+
+  <select id="getTaskRunLogList" parameterType="java.util.Map" resultType="com.xhw.logcollection.model.dto.MonitorWarnDto">
+    select * from bus_monitor_task_runlog mtr
+    left join bus_monitor_warn mw on mtr.runid = mw.runid
+    left join bus_monitor_task mt on mtr.rwbh = mt.rwbh
+    where 1=1
+    <if test="rwbh!=null and rwbh!=''">
+      and mtr.rwbh=#{rwbh}
+    </if>
+    <if test="runid!=null and runid!=''">
+      and mtr.runid=#{runid}
+    </if>
+    order by mtr.kssj desc
+  </select>
+
+  <select id="getTaskCountByCondition" parameterType="java.util.Map" resultType="java.lang.Long">
+    select count(0) from bus_monitor_task_runlog t where 1=1
+    <if test="startDate!=null and startDate!=''">
+      and t.kssj &gt;= to_date(#{startDate}||' 00:00:00','yyyy-mm-dd hh24:mi:ss')
+    </if>
+    <if test="endDate!=null and endDate!=''">
+      and t.kssj &lt; to_date(#{endDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+    </if>
+    <if test="yxjg!=null and yxjg!=''">
+      and t.yxjg=#{yxjg}
+    </if>
+  </select>
+  
+</mapper>

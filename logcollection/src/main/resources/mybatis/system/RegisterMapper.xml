@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhw.logcollection.system.mapper.RegisterMapper">
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.Register">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JLID" jdbcType="VARCHAR" property="jlid" />
+    <result column="BABH" jdbcType="VARCHAR" property="babh" />
+    <result column="JKFWSQM" jdbcType="VARCHAR" property="jkfwsqm" />
+    <result column="AGXTIP" jdbcType="VARCHAR" property="agxtip" />
+    <result column="AGXTDK" jdbcType="DECIMAL" property="agxtdk" />
+    <result column="JLZT" jdbcType="VARCHAR" property="jlzt" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JLID, BABH, JKFWSQM, AGXTIP, AGXTDK, JLZT, BZ
+  </sql>
+
+  <select id="queryRegister" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM  sys_cfg_register
+    <where>
+      <if test="babh!=null and babh!=''">
+         AND BABH=#{babh}
+       </if>
+       <if test="agxtip!=null and agxtip!=''">
+         AND AGXTIP like '%'||#{agxtip}||'%'
+       </if>
+      AND JLZT = '1'
+    </where>
+  </select>
+</mapper>

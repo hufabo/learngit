@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.system.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.Role" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JSID" property="jsid" jdbcType="VARCHAR" />
+    <result column="JSMC" property="jsmc" jdbcType="VARCHAR" />
+    <result column="JSMS" property="jsms" jdbcType="VARCHAR" />
+    <result column="CJRQ" property="cjrq" jdbcType="TIMESTAMP" />
+    <result column="ZT" property="zt" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JSID, JSMC, JSMS, CJRQ, ZT
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultType="com.xhw.logcollection.system.entity.Role">
+    SELECT * from SYS_ROLE r WHERE 1=1 and r.zt!='3'
+    <if test="yhid!=null and yhid!=''">
+      and r.JSID in (select ur.jsid from sys_user_role_map ur where ur.yhid=#{yhid})
+    </if>
+    <if test="jsmc!=null and jsmc!=''">
+      and r.jsmc like '%'||#{jsmc}||'%'
+    </if>
+    <if test="jsms!=null and jsms!=''">
+      and r.jsms like '%'||#{jsms}||'%'
+    </if>
+    <if test="startTime!=null and startTime!=''">
+      and r.cjrq>=to_date(#{startTime},'yyyy-MM-dd')
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and r.cjrq &lt;= to_date(#{endTime},'yyyy-MM-dd')
+    </if>
+    <if test="zt!=null and zt!=''">
+      and r.zt=#{zt}
+    </if>
+  </select>
+
+</mapper>

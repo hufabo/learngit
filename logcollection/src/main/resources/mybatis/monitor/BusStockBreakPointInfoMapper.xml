@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusStockBreakPointInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusStockBreakPointInfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+    <result column="BM" property="bm" jdbcType="VARCHAR" />
+    <result column="SJKBH" property="sjkbh" jdbcType="DECIMAL" />
+    <result column="SJCQ" property="sjcq" jdbcType="TIMESTAMP" />
+    <result column="SJCZ" property="sjcz" jdbcType="TIMESTAMP" />
+    <result column="DQSJC" property="dqsjc" jdbcType="TIMESTAMP" />
+    <result column="WCBJ" property="wcbj" jdbcType="CHAR" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, BM, SJKBH, SJCQ, SJCZ, DQSJC, WCBJ, GXSJ, ID
+  </sql>
+
+  <select id="listBreakFileByCondition" parameterType="java.util.Map" resultType="com.xhw.logcollection.model.dto.BusStockBreakFileDto">
+    SELECT f.*,b.wcbj,b.sjcq as bsjcq,b.sjcz as bsjcz,b.dqsjc as bdqsjc,b.gxsj as bgxsj FROM BUS_STOCK_FILE_INFO f
+    LEFT JOIN BUS_STOCK_BREAK_POINT_INFO b on f.jgxtlb=b.jgxtlb and f.bm=b.bm and f.sjkbh=b.sjkbh
+    WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and b.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="bm!=null and bm!=''">
+      and b.bm=#{bm}
+    </if>
+    order by f.jgxtlb,f.bm,f.sjkbh asc,f.wjm asc
+  </select>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_STOCK_BREAK_POINT_INFO b WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=null">
+      and b.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="bm!=null and bm!=null">
+      and b.bm=#{bm}
+    </if>
+    <if test="sjkbh!=null and sjkbh!=null">
+      and b.sjkbh=#{sjkbh}
+    </if>
+    <if test="wcbj!=null and wcbj!=null">
+      and b.wcbj=#{wcbj}
+    </if>
+    order by b.jgxtlb,b.bm,b.sjkbh asc
+  </select>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_STOCK_BREAK_POINT_INFO b WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and b.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and b.id>=#{id}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusStockFileInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusStockFileInfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+    <result column="BM" property="bm" jdbcType="VARCHAR" />
+    <result column="SJKBH" property="sjkbh" jdbcType="VARCHAR" />
+    <result column="WJM" property="wjm" jdbcType="VARCHAR" />
+    <result column="MD" property="md" jdbcType="VARCHAR" />
+    <result column="WJDX" property="wjdx" jdbcType="DECIMAL" />
+    <result column="SLJ" property="slj" jdbcType="DECIMAL" />
+    <result column="SJCQ" property="sjcq" jdbcType="TIMESTAMP" />
+    <result column="SJCZ" property="sjcz" jdbcType="TIMESTAMP" />
+    <result column="WJZT" property="wjzt" jdbcType="CHAR" />
+    <result column="SCSJ" property="scsj" jdbcType="TIMESTAMP" />
+    <result column="SCFWQSJ" property="scfwqsj" jdbcType="TIMESTAMP" />
+    <result column="SCBJSJ" property="scbjsj" jdbcType="TIMESTAMP" />
+    <result column="RKSJ" property="rksj" jdbcType="TIMESTAMP" />
+    <result column="CWZT" property="cwzt" jdbcType="CHAR" />
+    <result column="CWXXMS" property="cwxxms" jdbcType="VARCHAR" />
+    <result column="CCSJ" property="ccsj" jdbcType="TIMESTAMP" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, BM, SJKBH, WJM, MD, WJDX, SLJ, SJCQ, SJCZ, WJZT, SCSJ, SCFWQSJ, SCBJSJ, RKSJ, CWZT,
+    CWXXMS, CCSJ, GXSJ, ID
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from bus_stock_file_info t
+    where 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and t.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="bm!=null and bm!=''">
+      and t.bm=#{bm}
+    </if>
+    <if test="wjm!=null and wjm!=''">
+      and t.wjm like '%'||#{wjm}||'%'
+    </if>
+    <if test="wjzt!=null and wjzt!=''">
+      and t.wjzt=#{wjzt}
+    </if>
+    <if test="wjzts!=null and wjzts.size()!=0">
+      and t.wjzt in
+      <foreach collection="wjzts" item="item"
+               index="index" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    order by t.jgxtlb,t.bm,t.sjkbh asc,t.wjm asc
+  </select>
+
+  <select id="getUploadList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from bus_stock_file_info t
+    where 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and t.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="bm!=null and bm!=''">
+      and t.bm=#{bm}
+    </if>
+    <if test="wjm!=null and wjm!=''">
+      and t.wjm like '%'||#{wjm}||'%'
+    </if>
+    <if test="wjzt!=null and wjzt!=''">
+      and t.wjzt=#{wjzt}
+    </if>
+    <if test="wjzts!=null and wjzts.size()!=0">
+      and t.wjzt in
+      <foreach collection="wjzts" item="item"
+               index="index" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    order by t.gxsj asc
+  </select>
+
+  <update id="updateFileInfo" parameterType="com.xhw.logcollection.monitor.entity.BusStockFileInfo">
+    UPDATE BUS_STOCK_FILE_INFO f
+    SET f.GXSJ=sysdate
+    <if test="wjzt!=null and wjzt!=''">
+      ,f.WJZT=#{wjzt}
+    </if>
+    <if test="scfwqsj!=null">
+      ,f.SCFWQSJ=#{scfwqsj}
+    </if>
+    <if test="scbjsj!=null">
+      ,f.SCBJSJ=#{scbjsj}
+    </if>
+    <if test="rksj!=null">
+      ,f.RKSJ=#{rksj}
+    </if>
+    <if test="cwzt!=null and cwzt!=''">
+      ,f.CWZT=#{cwzt}
+    </if>
+    <if test="cwxxms!=null and cwxxms!=''">
+      ,f.CWXXMS=#{cwxxms}
+    </if>
+    <if test="ccsj!=null">
+      ,f.CCSJ=#{ccsj}
+    </if>
+    where f.WJM=#{wjm}
+  </update>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_STOCK_FILE_INFO f WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and f.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and f.id>=#{id}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhw.logcollection.system.mapper.AgentMapper">
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.Agent">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="DLID" jdbcType="VARCHAR" property="dlid" />
+    <result column="DLMC" jdbcType="VARCHAR" property="dlmc" />
+    <result column="DLIP" jdbcType="VARCHAR" property="dlip" />
+    <result column="DLDKH" jdbcType="DECIMAL" property="dldkh" />
+    <result column="GDRZML" jdbcType="VARCHAR" property="gdrzml" />
+    <result column="ZXRZML" jdbcType="VARCHAR" property="zxrzml" />
+    <result column="ZT" jdbcType="VARCHAR" property="zt" />
+    <result column="JLZT" jdbcType="VARCHAR" property="jlzt" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="JGXTLB" jdbcType="VARCHAR" property="jgxtlb" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    DLID, DLMC, DLIP, DLDKH, GDRZML, ZXRZML, ZT, JLZT, BZ, JGXTLB
+  </sql>
+
+  <select id="queryAgent" parameterType="Map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM  sys_cfg_agent
+    <where>
+      <if test="jgxtlb!=null and jgxtlb!=''">
+        AND jgxtlb=#{jgxtlb}
+      </if>
+      <if test="zt!=null and zt!=''">
+        AND zt=#{zt}
+      </if>
+      <if test="dlmc!=null and dlmc!=''">
+        AND dlmc like '%'||#{dlmc}||'%'
+      </if>
+      <if test="dlip!=null and dlip!=''">
+        AND dlip like '%'||#{dlip}||'%'
+      </if>
+      AND JLZT = '1'
+    </where>
+  </select>
+</mapper>

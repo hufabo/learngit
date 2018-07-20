@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.job.mapper.MonitorTaskMapper" >
+
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.model.dto.MonitorTaskDto" >
+    <id column="RWBH" property="rwbh" jdbcType="CHAR" />
+    <result column="RWMC" property="rwmc" jdbcType="VARCHAR" />
+    <result column="SFQY" property="sfqy" jdbcType="CHAR" />
+    <result column="RWXTSBPL" property="rwxtsbpl" jdbcType="DECIMAL" />
+    <result column="RWZDBFSL" property="rwzdbfsl" jdbcType="DECIMAL" />
+    <result column="kssj" property="kssj" jdbcType="DATE" />
+    <result column="jssj" property="jssj" jdbcType="DATE" />
+    <result column="yxjg" property="yxjg" jdbcType="VARCHAR" />
+    <result column="yxsc" property="yxsc" jdbcType="VARCHAR" />
+    <result column="cwcs" property="cwcs" jdbcType="DECIMAL" />
+    <result column="cwlx" property="cwlx" jdbcType="VARCHAR" />
+    <result column="cwcode" property="cwcode" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="queryList" parameterType="java.util.Map" resultType="com.xhw.logcollection.job.entity.MonitorTask">
+    select * from bus_monitor_task mt where 1=1
+    <if test="sfqy!=null and sfqy!=''">
+      and mt.sfqy = #{sfqy}
+    </if>
+    <if test="rwbh!=null and rwbh!=''">
+      and mt.rwbh = #{rwbh}
+    </if>
+    order by mt.sfqy asc,mt.rwbh asc
+  </select>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from bus_monitor_task mt
+    left join (
+         SELECT mtr.*,ROW_NUMBER()OVER(PARTITION BY rwbh ORDER BY jssj DESC) rn from bus_monitor_task_runlog mtr where mtr.yxjg is not null
+    ) mtr2 on mtr2.rwbh=mt.rwbh and mtr2.rn=1
+    left join (
+         select mtr.rwbh,
+         count(0) as cwcs,
+         to_char(wmsys.wm_concat(distinct mw.cwlx)) as cwlx,
+         to_char(wmsys.wm_concat(distinct mw.cwcode)) as cwcode
+         from bus_monitor_warn mw
+         left join bus_monitor_task_runlog mtr on mtr.runid = mw.runid
+         group by mtr.rwbh
+    ) mw2 on mw2.rwbh = mt.rwbh
+    where 1=1
+    <if test="rwmc!=null and rwmc!=''">
+      and lower(mt.rwmc) like '%'||lower(#{rwmc})||'%'
+    </if>
+    <if test="sfqy!=null and sfqy!=''">
+      and mt.sfqy = #{sfqy}
+    </if>
+    <if test="yxjg!=null and yxjg!=''">
+      and mtr2.yxjg = #{yxjg}
+    </if>
+
+    <if test="cwcs!=null and cwcs!=''">
+      <choose>
+        <when test="cwcs == 0 ">
+          and mw2.cwcs is null
+        </when>
+        <otherwise>
+          and mw2.cwcs = #{cwcs}
+        </otherwise>
+      </choose>
+    </if>
+
+    <if test="cwlx!=null and cwlx!=''">
+      and mw2.cwlx like '%'||#{cwlx}||'%'
+    </if>
+    <if test="cwcode!=null and cwcode!=''">
+      and mw2.cwcode like '%'||#{cwcode}||'%'
+    </if>
+    order by mt.rwbh asc
+  </select>
+
+  <select id="getTaskCountByCondition" parameterType="java.util.Map" resultType="java.lang.Long">
+    select count(0) from bus_monitor_task mt
+    left join (
+    SELECT mtr.*,ROW_NUMBER()OVER(PARTITION BY rwbh ORDER BY jssj DESC) rn from bus_monitor_task_runlog mtr where mtr.yxjg is not null
+    ) mtr2 on mtr2.rwbh=mt.rwbh and mtr2.rn=1
+    left join (
+    select mtr.rwbh,
+    count(0) as cwcs,
+    to_char(wmsys.wm_concat(distinct mw.cwlx)) as cwlx,
+    to_char(wmsys.wm_concat(distinct mw.cwcode)) as cwcode
+    from bus_monitor_warn mw
+    left join bus_monitor_task_runlog mtr on mtr.runid = mw.runid
+    group by mtr.rwbh
+    ) mw2 on mw2.rwbh = mt.rwbh
+    where 1=1
+    /*开始日期*/
+    <if test="startDate!=null and startDate!=''">
+      and mtr2.kssj &gt;= to_date(#{startDate}||' 00:00:00','yyyy-mm-dd hh24:mi:ss')
+    </if>
+    /*结束日期*/
+    <if test="endDate!=null and endDate!=''">
+      and mtr2.kssj &lt; to_date(#{endDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+    </if>
+    /*运行结果*/
+    <if test="yxjg!=null and yxjg!=''">
+      and mtr2.yxjg = #{yxjg}
+    </if>
+    /*运行最大告警次数*/
+    <if test="zxcwcs!=null and zxcwcs!=''">
+      and mw2.cwcs &gt;= #{zxcwcs}
+    </if>
+    /*运行最小告警次数*/
+    <if test="zdcwcs!=null and zdcwcs!=''">
+      and mw2.cwcs &lt;= #{zdcwcs}
+    </if>
+    /*错误类型*/
+    <if test="cwlx!=null and cwlx!=''">
+      and mw2.cwlx like '%'||#{cwlx}||'%'
+    </if>
+  </select>
+
+  <update id="initTaskStatus">
+    update bus_monitor_task t set t.yxzt='1'
+  </update>
+
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.job.mapper.BusCfgTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.job.entity.BusCfgTask" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+    <result column="BM" property="bm" jdbcType="VARCHAR" />
+    <result column="BMMS" property="bmms" jdbcType="VARCHAR" />
+    <result column="CLCJBJ" property="clcjbj" jdbcType="CHAR" />
+    <result column="SJCZD" property="sjczd" jdbcType="VARCHAR" />
+    <result column="CLQSRQ" property="clqsrq" jdbcType="TIMESTAMP" />
+    <result column="CLGLTJ" property="clgltj" jdbcType="VARCHAR" />
+    <result column="CLWCBJ" property="clwcbj" jdbcType="CHAR" />
+    <result column="ZLKHDGLLX" property="zlkhdgllx" jdbcType="VARCHAR" />
+    <result column="ZLINSERT" property="zlinsert" jdbcType="CHAR" />
+    <result column="ZLUPDATE" property="zlupdate" jdbcType="CHAR" />
+    <result column="ZLDELETE" property="zldelete" jdbcType="CHAR" />
+    <result column="CJSJ" property="cjsj" jdbcType="TIMESTAMP" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, BM, BMMS, CLCJBJ, SJCZD, CLQSRQ, CLGLTJ, CLWCBJ, ZLKHDGLLX, ZLINSERT, ZLUPDATE, 
+    ZLDELETE, CJSJ, GXSJ
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_CFG_TASK t WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      AND t.jgxtlb like '%'||#{jgxtlb}||'%'
+    </if>
+    <if test="bm!=null and bm!=''">
+      and t.bm like '%'||#{bm}||'%'
+    </if>
+    <if test="bmms!=null and bmms!=''">
+      and t.bmms like '%'||#{bmms}||'%'
+    </if>
+    <if test="clcjbj!=null and clcjbj!=''">
+      and t.clcjbj=#{clcjbj}
+    </if>
+    <if test="clwcbj!=null and clwcbj!=''">
+      and t.clwcbj=#{clwcbj}
+    </if>
+    <if test="startTime!=null and startTime!=''">
+      and t.GXSJ>=to_date(#{startTime},'yyyy-MM-dd')
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and t.GXSJ &lt;= to_date(#{endTime},'yyyy-MM-dd')
+    </if>
+  </select>
+
+  <delete id="deleteALL">
+    delete from bus_cfg_task
+  </delete>
+
+</mapper>

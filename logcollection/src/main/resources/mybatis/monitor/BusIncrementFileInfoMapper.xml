@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusIncrementFileInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusIncrementFileInfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+    <result column="WJM" property="wjm" jdbcType="VARCHAR" />
+    <result column="MD" property="md" jdbcType="VARCHAR" />
+    <result column="WJDX" property="wjdx" jdbcType="DECIMAL" />
+    <result column="SJLINSERT" property="sjlinsert" jdbcType="DECIMAL" />
+    <result column="SJLUPDATE" property="sjlupdate" jdbcType="DECIMAL" />
+    <result column="SJLDELETE" property="sjldelete" jdbcType="DECIMAL" />
+    <result column="SCNQ" property="scnq" jdbcType="DECIMAL" />
+    <result column="SEQQ" property="seqq" jdbcType="DECIMAL" />
+    <result column="SCNZ" property="scnz" jdbcType="DECIMAL" />
+    <result column="SEQZ" property="seqz" jdbcType="DECIMAL" />
+    <result column="SYWJM" property="sywjm" jdbcType="VARCHAR" />
+    <result column="XYWJM" property="xywjm" jdbcType="VARCHAR" />
+    <result column="WJZT" property="wjzt" jdbcType="CHAR" />
+    <result column="SCSJ" property="scsj" jdbcType="TIMESTAMP" />
+    <result column="SCFWQSJ" property="scfwqsj" jdbcType="TIMESTAMP" />
+    <result column="SCBJSJ" property="scbjsj" jdbcType="TIMESTAMP" />
+    <result column="RKSJ" property="rksj" jdbcType="TIMESTAMP" />
+    <result column="CWZT" property="cwzt" jdbcType="CHAR" />
+    <result column="CWXXMS" property="cwxxms" jdbcType="VARCHAR" />
+    <result column="CCSJ" property="ccsj" jdbcType="TIMESTAMP" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, WJM, MD, WJDX, SJLINSERT, SJLUPDATE, SJLDELETE, SCNQ, SEQQ, SCNZ, SEQZ, SYWJM,
+    XYWJM, WJZT, SCSJ, SCFWQSJ, SCBJSJ, RKSJ, CWZT, CWXXMS, CCSJ, GXSJ, ID
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_INCREMENT_FILE_INFO ifi WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and ifi.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="scnq!=null and scnq!=''">
+      and ifi.scnq &lt;= #{scnq} and ifi.scnz &gt;= #{scnq}
+    </if>
+    <if test="scnz!=null and scnz!=''">
+      and ifi.scnq &lt;= #{scnz} and ifi.scnz &gt;= #{scnz}
+    </if>
+    <if test="seqq!=null and seqq!=''">
+      and ifi.seqq &lt;= #{seqq} and ifi.seqz &gt;= #{seqq}
+    </if>
+    <if test="seqz!=null and seqz!=''">
+      and ifi.seqq &lt;= #{seqz} and ifi.seqz &gt;= #{seqz}
+    </if>
+    <if test="wjzt!=null and wjzt!=''">
+      and ifi.wjzt = #{wjzt}
+    </if>
+    <if test="wjm!=null and wjm!=''">
+      and ifi.wjm like '%'||#{wjm}||'%'
+    </if>
+    <if test="wjzts!=null and wjzts.size()!=0">
+      and ifi.wjzt in
+      <foreach collection="wjzts" item="item"
+               index="index" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    order by ifi.gxsj desc
+  </select>
+
+  <select id="getUploadList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_INCREMENT_FILE_INFO ifi WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and ifi.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="scnq!=null and scnq!=''">
+      and ifi.scnq &lt;= #{scnq} and ifi.scnz &gt;= #{scnq}
+    </if>
+    <if test="scnz!=null and scnz!=''">
+      and ifi.scnq &lt;= #{scnz} and ifi.scnz &gt;= #{scnz}
+    </if>
+    <if test="seqq!=null and seqq!=''">
+      and ifi.seqq &lt;= #{seqq} and ifi.seqz &gt;= #{seqq}
+    </if>
+    <if test="seqz!=null and seqz!=''">
+      and ifi.seqq &lt;= #{seqz} and ifi.seqz &gt;= #{seqz}
+    </if>
+    <if test="wjzt!=null and wjzt!=''">
+      and ifi.wjzt = #{wjzt}
+    </if>
+    <if test="wjm!=null and wjm!=''">
+      and ifi.wjm like '%'||#{wjm}||'%'
+    </if>
+    <if test="wjzts!=null and wjzts.size()!=0">
+      and ifi.wjzt in
+      <foreach collection="wjzts" item="item"
+               index="index" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    order by ifi.gxsj asc
+  </select>
+
+  <update id="updateByFile" parameterType="com.xhw.logcollection.monitor.entity.BusIncrementFileInfo">
+    UPDATE BUS_INCREMENT_FILE_INFO ifi
+    SET ifi.gxsj=sysdate
+    <if test="xywjm!=null and xywjm!=''">
+      ,ifi.XYWJM=#{xywjm}
+    </if>
+    <if test="wjzt!=null and wjzt!=''">
+      ,ifi.WJZT=#{wjzt}
+    </if>
+    <if test="scfwqsj!=null">
+      ,ifi.SCFWQSJ=#{scfwqsj}
+    </if>
+    <if test="scbjsj!=null">
+      ,ifi.SCBJSJ=#{scbjsj}
+    </if>
+    <if test="rksj!=null">
+      ,ifi.RKSJ=#{rksj}
+    </if>
+    <if test="cwzt!=null and cwzt!=''">
+      ,ifi.CWZT=#{cwzt}
+    </if>
+    <if test="cwxxms!=null and cwxxms!=''">
+      ,ifi.CWXXMS=#{cwxxms}
+    </if>
+    <if test="ccsj!=null">
+      ,ifi.CCSJ=#{ccsj}
+    </if>
+    where ifi.WJM=#{wjm}
+  </update>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_INCREMENT_FILE_INFO ifi WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and ifi.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and ifi.id>=#{id}
+    </if>
+  </select>
+
+</mapper>

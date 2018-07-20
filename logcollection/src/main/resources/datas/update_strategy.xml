@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <head>
+        <code>1</code>
+        <message>数据下载成功</message>
+        <rownum>1</rownum>
+    </head>
+    <body>
+        <drvpara>
+            <azdm>123456</azdm>
+            <clsjkzdz>20</clsjkzdz>
+            <clsjkljzdz>5</clsjkljzdz>
+            <clrwqdsj>00</clrwqdsj>
+            <clrwjssj>23</clrwjssj>
+            <zlcjzq>10</zlcjzq>
+            <rzjxwjzdz>2</rzjxwjzdz>
+            <clscml>stock</clscml>
+            <zlscml>incr</zlscml>
+            <jgxtlb>10#linux,60#windows,70#新系统</jgxtlb>
+            <tablist>
+                <tab>
+                    <jgxtlb>60</jgxtlb>
+                    <bm>test_collect_table</bm>
+                    <bmms>采集测试表</bmms>
+                    <clcjbj>1</clcjbj>
+                    <sjczd>time</sjczd>
+                    <clqsrq>2018-02-27 00:00:00</clqsrq>
+                    <clgltj></clgltj>
+                    <clwcbj>0</clwcbj>
+                    <zlkhdgllx></zlkhdgllx>
+                    <zlinsert>1</zlinsert>
+                    <zlupdate>1</zlupdate>
+                    <zldelete>1</zldelete>
+                    <cjsj>2018-02-28 14:21:26</cjsj>
+                    <gxsj>2018-02-28 14:21:26</gxsj>
+                </tab>
+                <tab>
+                    <jgxtlb>60</jgxtlb>
+                    <bm>test_collect_table_2</bm>
+                    <bmms>采集测试表2</bmms>
+                    <clcjbj>1</clcjbj>
+                    <sjczd>time</sjczd>
+                    <clqsrq>2018-02-27 00:00:00</clqsrq>
+                    <clgltj>log is null</clgltj>
+                    <clwcbj>0</clwcbj>
+                    <zlkhdgllx></zlkhdgllx>
+                    <zlinsert>1</zlinsert>
+                    <zlupdate>1</zlupdate>
+                    <zldelete>1</zldelete>
+                    <cjsj>2018-02-28 14:21:26</cjsj>
+                    <gxsj>2018-02-28 14:21:26</gxsj>
+                </tab>
+                <tab>
+                    <jgxtlb>10</jgxtlb>
+                    <bm>test_char</bm>
+                    <bmms>linux上的表</bmms>
+                    <clcjbj>1</clcjbj>
+                    <sjczd>endtime</sjczd>
+                    <clqsrq>2017-02-27 00:00:00</clqsrq>
+                    <clgltj></clgltj>
+                    <clwcbj>0</clwcbj>
+                    <zlkhdgllx></zlkhdgllx>
+                    <zlinsert>1</zlinsert>
+                    <zlupdate>1</zlupdate>
+                    <zldelete>1</zldelete>
+                    <cjsj>2018-02-28 14:21:26</cjsj>
+                    <gxsj>2018-02-28 14:21:26</gxsj>
+                </tab>
+                <tab>
+                    <jgxtlb>70</jgxtlb>
+                    <bm>test_char</bm>
+                    <bmms>linux上的表</bmms>
+                    <clcjbj>1</clcjbj>
+                    <sjczd>endtime</sjczd>
+                    <clqsrq>2017-02-27 00:00:00</clqsrq>
+                    <clgltj></clgltj>
+                    <clwcbj>0</clwcbj>
+                    <zlkhdgllx></zlkhdgllx>
+                    <zlinsert>1</zlinsert>
+                    <zlupdate>1</zlupdate>
+                    <zldelete>1</zldelete>
+                    <cjsj>2018-02-28 14:21:26</cjsj>
+                    <gxsj>2018-02-28 14:21:26</gxsj>
+                </tab>
+            </tablist>
+        </drvpara>
+    </body>
+</root>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.system.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.User" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="YHID" property="yhid" jdbcType="VARCHAR" />
+    <result column="YHMC" property="yhmc" jdbcType="VARCHAR" />
+    <result column="DLMM" property="dlmm" jdbcType="VARCHAR" />
+    <result column="DHHM" property="dhhm" jdbcType="VARCHAR" />
+    <result column="YXDZ" property="yxdz" jdbcType="VARCHAR" />
+    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+    <result column="CJRQ" property="cjrq" jdbcType="TIMESTAMP" />
+    <result column="ZT" property="zt" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    YHID, YHMC, DLMM, DHHM, YXDZ, BZ, CJRQ, ZT
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultType="com.xhw.logcollection.system.entity.User">
+    SELECT * FROM SYS_USER u WHERE 1=1
+    <if test="yhmc!=null and yhmc!=''">
+      and u.yhmc like '%'||#{yhmc}||'%'
+    </if>
+    <if test="dhhm!=null and dhhm!=''">
+      and u.dhhm like '%'||#{dhhm}||'%'
+    </if>
+    <if test="yxdz!=null and yxdz!=''">
+      and u.yxdz like '%'||#{yxdz}||'%'
+    </if>
+    <if test="startTime!=null and startTime!=''">
+      and u.cjrq>=to_date(#{startTime},'yyyy-MM-dd')
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and u.cjrq &lt;= to_date(#{endTime},'yyyy-MM-dd')
+    </if>
+    <if test="zt!=null and zt!=''">
+      and u.zt=#{zt}
+    </if>
+    <if test="zt==null">
+      and u.zt in ('1','2')
+    </if>
+    order by u.zt asc,u.cjrq desc
+  </select>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.job.mapper.BusSyncTbMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.job.entity.BusSyncTb" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="TBPCH" property="tbpch" jdbcType="VARCHAR" />
+    <result column="TBZL" property="tbzl" jdbcType="NUMERIC" />
+    <result column="TBSJL" property="tbsjl" jdbcType="NUMERIC" />
+    <result column="TBBZW" property="tbbzw" jdbcType="NUMERIC" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="TBLX" property="tblx" jdbcType="VARCHAR" />
+    <result column="rstcode" property="rstCode" jdbcType="VARCHAR" />
+    <result column="rstmsg" property="rstMsg" jdbcType="VARCHAR" />
+    <result column="rstkeystr" property="rstKeyStr" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    TBPCH, XTLB, BM, TBZL, TBSJL, TBBZW, GXSJ, TBLX, RSTCODE, RSTMSG, RSTKEYSTR
+  </sql>
+
+  <select id="getRecent" resultType="java.util.Map" resultMap="BaseResultMap">
+    select *
+    from (select rownum rn, t.*
+            from (select *
+                    from bus_sync_tb s
+                   where s.tblx = #{tblx}
+                   order by s.gxsj desc) t) t1
+    where t1.rn = '1'
+  </select>
+
+</mapper>

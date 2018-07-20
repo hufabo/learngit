@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusAuditDdlMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusAuditDdl" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+    <result column="SCN" property="scn" jdbcType="DECIMAL" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="ORAUSER" property="orauser" jdbcType="VARCHAR" />
+    <result column="ORASCHEMA" property="oraschema" jdbcType="VARCHAR" />
+    <result column="CZLX" property="czlx" jdbcType="CHAR" />
+    <result column="DXLX" property="dxlx" jdbcType="CHAR" />
+    <result column="DXM" property="dxm" jdbcType="VARCHAR" />
+    <result column="CZSJ" property="czsj" jdbcType="TIMESTAMP" />
+    <result column="NR" property="nr" jdbcType="VARCHAR" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, SCN, SEQ, ORAUSER, ORASCHEMA, CZLX, DXLX, DXM, CZSJ, NR, GXSJ, ID
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_AUDIT_DDL ad WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and ad.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="oraschema!=null and oraschema!=''">
+      and ad.oraschema like '%'||#{oraschema}||'%'
+    </if>
+    <if test="czlx!=null and czlx!=''">
+      and ad.czlx=#{czlx}
+    </if>
+    <if test="dxlx!=null and dxlx!=''">
+      and ad.dxlx=#{dxlx}
+    </if>
+    <if test="scn!=null and scn!=''">
+      and ad.scn = #{scn}
+    </if>
+    <if test="seq!=null and seq!=''">
+      and ad.seq = #{seq}
+    </if>
+    order by ad.gxsj desc
+  </select>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_AUDIT_DDL ad WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and ad.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and ad.id>=#{id}
+    </if>
+  </select>
+
+</mapper>

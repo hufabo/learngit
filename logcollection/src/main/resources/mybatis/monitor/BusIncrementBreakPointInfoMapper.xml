@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusIncrementBreakPointInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusIncrementBreakPointInfo" >
+  <!--
+    WARNING - @mbg.generated
+  -->
+  <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+  <result column="SCN" property="scn" jdbcType="DECIMAL" />
+  <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+  <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+</resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, SCN, SEQ, GXSJ, ID
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_INCREMENT_BREAK_POINT_INFO ibp WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      AND ibp.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="scn!=null and scn!=''">
+      and ibp.scn = #{scn}
+    </if>
+    <if test="seq!=null and seq!=''">
+      and ibp.seq = #{seq}
+    </if>
+    order by ibp.gxsj desc
+  </select>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_INCREMENT_BREAK_POINT_INFO b WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and b.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and b.id>=#{id}
+    </if>
+  </select>
+
+  <select id="getCountByxtlb" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT count(1) from bus_increment_break_point_info b WHERE b.JGXTLB=#{xtlb}
+  </select>
+
+</mapper>

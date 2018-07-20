@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusStockDealStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusStockDealStatus" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="JGXTLB" property="jgxtlb" jdbcType="CHAR" />
+    <result column="BM" property="bm" jdbcType="VARCHAR" />
+    <result column="CJZT" property="cjzt" jdbcType="CHAR" />
+    <result column="CCQDSJ" property="ccqdsj" jdbcType="TIMESTAMP" />
+    <result column="ZJQDSJ" property="zjqdsj" jdbcType="TIMESTAMP" />
+    <result column="CJWCSJ" property="cjwcsj" jdbcType="TIMESTAMP" />
+    <result column="SJZL" property="sjzl" jdbcType="DECIMAL" />
+    <result column="CJSJZL" property="cjsjzl" jdbcType="DECIMAL" />
+    <result column="CJWJS" property="cjwjs" jdbcType="DECIMAL" />
+    <result column="ZHWJM" property="zhwjm" jdbcType="VARCHAR" />
+    <result column="RKZT" property="rkzt" jdbcType="CHAR" />
+    <result column="RKWCSJ" property="rkwcsj" jdbcType="TIMESTAMP" />
+    <result column="RKSJZL" property="rksjzl" jdbcType="DECIMAL" />
+    <result column="RKWJS" property="rkwjs" jdbcType="DECIMAL" />
+    <result column="CWXXMS" property="cwxxms" jdbcType="VARCHAR" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    JGXTLB, BM, CJZT, CCQDSJ, ZJQDSJ, CJWCSJ, SJZL, CJSJZL, CJWJS, ZHWJM, RKZT, RKWCSJ,
+    RKSJZL, RKWJS, CWXXMS, GXSJ, ID
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_STOCK_DEAL_STATUS ds WHERE 1=1
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and ds.jgxtlb like '%'||#{jgxtlb}||'%'
+    </if>
+    <if test="bm!=null and bm!=''">
+      and ds.bm like '%'||#{bm}||'%'
+    </if>
+    <if test="cjzt!=null and cjzt!=''">
+      and ds.cjzt=#{cjzt}
+    </if>
+    <if test="rkzt!=null and rkzt!=''">
+      and ds.rkzt=#{rkzt}
+    </if>
+    order by ds.gxsj desc
+  </select>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_STOCK_DEAL_STATUS ds WHERE 1=1
+    <if test="gxsj!=null and gxjs!=''">
+      and ds.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=''">
+      and ds.id>=#{id}
+    </if>
+  </select>
+
+  <select id="queryStockDealStatus" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select t.jgxtlb,t.bm,sum(t.slj) cjsjzl,count(t.wjm) cjwjs,max(t.wjm) zhwjm from bus_stock_file_info t
+    where 1=1
+    <if test="xtlbs!=null">
+      and t.jgxtlb in
+      <foreach item="xtlb" index="index" collection="xtlbs" open="(" separator="," close=")">
+        #{xtlb}
+      </foreach>
+    </if>
+    <if test="bms!=null">
+      and t.bm in
+      <foreach item="bm" index="index" collection="bms" open="(" separator="," close=")">
+        #{bm}
+      </foreach>
+    </if>
+    group by t.jgxtlb,t.bm
+  </select>
+
+  <select id="queryRKWJS" resultMap="BaseResultMap">
+    select t1.*,t2.CJSJZL,t2.CJWJS from (
+    select t.jgxtlb,t.bm,count(t.wjm) rkwjs,sum(t.slj) rksjzl from bus_stock_file_info t
+    where t.wjzt=4
+    group by t.jgxtlb,t.bm
+    ) t1
+    left join bus_stock_deal_status t2 on t1.jgxtlb = t2.jgxtlb and t1.bm=t2.bm
+  </select>
+
+  <delete id="deleteALL">
+    delete from BUS_STOCK_DEAL_STATUS
+  </delete>
+
+</mapper>

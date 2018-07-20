@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhw.logcollection.system.mapper.DataSourceMapper">
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.DataSource">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="SJYID" jdbcType="VARCHAR" property="sjyid" />
+    <result column="SJYMC" jdbcType="VARCHAR" property="sjymc" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="PORT" jdbcType="DECIMAL" property="port" />
+    <result column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SN" jdbcType="VARCHAR" property="sn" />
+    <result column="ORA_SCHEMA" jdbcType="VARCHAR" property="oraSchema" />
+    <result column="ORA_USER" jdbcType="VARCHAR" property="oraUser" />
+    <result column="ORA_PASSWORD" jdbcType="VARCHAR" property="oraPassword" />
+    <result column="JLZT" jdbcType="VARCHAR" property="jlzt" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="JGXTLB" jdbcType="VARCHAR" property="jgxtlb" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    SJYID, SJYMC, IP, PORT, SID, SN, ORA_SCHEMA, ORA_USER, ORA_PASSWORD, JLZT, BZ, JGXTLB
+  </sql>
+
+  <select id="queryDataSource" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM  sys_cfg_datasource
+    <where>
+     <if test="jgxtlb!=null and jgxtlb!=''">
+        AND jgxtlb=#{jgxtlb}
+      </if>
+      <if test="sjymc!=null and sjymc!=''">
+        AND sjymc like '%'||#{sjymc}||'%'
+      </if>
+      <if test="ip!=null and ip!=''">
+        AND ip like '%'||#{ip}||'%'
+      </if>
+      AND JLZT = '1'
+    </where>
+  </select>
+</mapper>

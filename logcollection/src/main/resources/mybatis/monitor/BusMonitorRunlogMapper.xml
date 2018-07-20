@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusMonitorRunlogMapper" >
+
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusMonitorRunlog" >
+    <id column="babh" property="babh" jdbcType="VARCHAR" />
+    <id column="jgxtlb" property="jgxtlb" jdbcType="VARCHAR" />
+    <result column="fwqljzt" property="fwqljzt" jdbcType="VARCHAR" />
+    <result column="fwqcwms" property="fwqcwms" jdbcType="VARCHAR" />
+    <result column="sjkljzt" property="sjkljzt" jdbcType="VARCHAR" />
+    <result column="sjkcwms" property="sjkcwms" jdbcType="VARCHAR" />
+    <result column="zlhqfs" property="zlhqfs" jdbcType="VARCHAR" />
+    <result column="khdzt" property="khdzt" jdbcType="VARCHAR" />
+    <result column="khdcwms" property="khdcwms" jdbcType="VARCHAR" />
+    <result column="zxrzmlzt" property="zxrzmlzt" jdbcType="VARCHAR" />
+    <result column="zxrzcwms" property="zxrzcwms" jdbcType="VARCHAR" />
+    <result column="gdrzmlzt" property="gdrzmlzt" jdbcType="VARCHAR" />
+    <result column="gdrzcwms" property="gdrzcwms" jdbcType="VARCHAR" />
+    <result column="clyxzt" property="clyxzt" jdbcType="VARCHAR" />
+    <result column="zlyxzt" property="zlyxzt" jdbcType="VARCHAR" />
+    <result column="gxsj" property="gxsj" jdbcType="DATE" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from bus_monitor_runlog mr where 1=1
+    /* 系统类别 */
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and mr.jgxtlb=#{jgxtlb}
+    </if>
+    <if test="cwzt=='0'">
+      and (mr.fwqljzt=0 or mr.sjkljzt=0 or mr.KHDZT=0 or mr.GDRZMLZT=0 or mr.CLYXZT=0 or mr.ZLYXZT=0)
+    </if>
+    order by mr.babh,mr.jgxtlb
+  </select>
+
+  <select id="queryErrorLogs" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from bus_monitor_runlog mr where 1=1
+    /* 系统类别 */
+    <if test="jgxtlb!=null and jgxtlb!=''">
+      and mr.jgxtlb=#{jgxtlb}
+    </if>
+    and (mr.fwqljzt=0 or mr.sjkljzt=0 or mr.KHDZT=0 or mr.GDRZMLZT=0 or mr.CLYXZT=2 or mr.ZLYXZT=2)
+    order by mr.jgxtlb
+  </select>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM bus_monitor_runlog mr WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and mr.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and mr.id>=#{id}
+    </if>
+  </select>
+</mapper>

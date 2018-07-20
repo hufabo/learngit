@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.system.mapper.RoleMenuMapMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.RoleMenuMap" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="CDID" property="cdid" jdbcType="VARCHAR" />
+    <result column="JSID" property="jsid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="inserList" parameterType="java.util.List">
+    INSERT INTO sys_role_menu_map(CDID,JSID)
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator="union all">
+      SELECT #{item.cdid} as a, #{item.jsid} as b FROM DUAL
+    </foreach>
+  </insert>
+
+  <delete id="removeByRole" parameterType="java.lang.String">
+    delete from sys_role_menu_map where JSID=#{jsid}
+  </delete>
+
+  <delete id="removeByMenu" parameterType="java.util.Map">
+    delete from sys_role_menu_map where CDID IN
+    <foreach collection="list" item="ids" index="index" open="(" separator="," close=")">
+      #{ids}
+    </foreach>
+  </delete>
+
+  <select id="listByRole" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM sys_role_menu_map where JSID=#{jsid}
+  </select>
+
+</mapper>

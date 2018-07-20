@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhw.logcollection.system.mapper.ShareProtocolMapper">
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.ShareProtocol">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="MLGXID" jdbcType="VARCHAR" property="mlgxid" />
+    <result column="MLGXMC" jdbcType="VARCHAR" property="mlgxmc" />
+    <result column="MLGXIP" jdbcType="VARCHAR" property="mlgxip" />
+    <result column="MLGXYHM" jdbcType="VARCHAR" property="mlgxyhm" />
+    <result column="MLGXMM" jdbcType="VARCHAR" property="mlgxmm" />
+    <result column="MLGXGDRZ" jdbcType="VARCHAR" property="mlgxgdrz" />
+    <result column="MLGXGDRZMC" jdbcType="VARCHAR" property="mlgxgdrzmc" />
+    <result column="MLGXZXRZ" jdbcType="VARCHAR" property="mlgxzxrz" />
+    <result column="MLGXZXRZMC" jdbcType="VARCHAR" property="mlgxzxrzmc" />
+    <result column="JLZT" jdbcType="VARCHAR" property="jlzt" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="JGXTLB" jdbcType="VARCHAR" property="jgxtlb" />
+    <result column="XTLB" jdbcType="VARCHAR" property="xtlb" />
+    <result column="XYLX" jdbcType="VARCHAR" property="xylx" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    MLGXID, MLGXMC, MLGXIP, MLGXYHM, MLGXMM, MLGXGDRZ, MLGXGDRZMC, MLGXZXRZ, MLGXZXRZMC, 
+    JLZT, BZ, JGXTLB, XTLB, XYLX
+  </sql>
+
+  <select id="queryShareProtocol" parameterType="Map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM  sys_cfg_share_protocol
+    <where>
+      <if test="jgxtlb!=null and jgxtlb!=''">
+        AND jgxtlb=#{jgxtlb}
+      </if>
+      <if test="xtlb!=null and xtlb!=''">
+        AND xtlb=#{xtlb}
+      </if>
+      <if test="xylx!=null and xylx!=''">
+        AND xylx=#{xylx}
+      </if>
+      <if test="mlgxmc!=null and mlgxmc!=''">
+        AND mlgxmc like '%'||#{mlgxmc}||'%'
+      </if>
+      <if test="mlgxip!=null and mlgxip!=''">
+        AND mlgxip like '%'||#{mlgxip}||'%'
+      </if>
+      AND JLZT = '1'
+      order by xylx asc
+    </where>
+  </select>
+</mapper>

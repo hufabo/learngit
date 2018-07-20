@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.system.mapper.UserRoleMapMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.system.entity.UserRoleMap" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="YHID" property="yhid" jdbcType="VARCHAR" />
+    <result column="JSID" property="jsid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="insertList" parameterType="java.util.List">
+    INSERT INTO sys_user_role_map(YHID,JSID)
+    <foreach collection="list" item="item" index="index" open="(" close=")" separator="union all">
+      SELECT #{item.yhid} as a, #{item.jsid} as b FROM DUAL
+    </foreach>
+  </insert>
+
+  <delete id="removeByUser" parameterType="java.lang.String">
+    delete from sys_user_role_map where YHID=#{yhid}
+  </delete>
+
+  <select id="listByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM sys_user_role_map WHERE YHID=#{yhid}
+  </select>
+
+</mapper>

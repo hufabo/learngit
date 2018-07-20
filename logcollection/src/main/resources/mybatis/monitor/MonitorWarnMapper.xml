@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.job.mapper.MonitorWarnMapper" >
+
+    <select id="selectNextWarnId" parameterType="long" resultType="long">
+        select (to_number(NVL(max(warnid),0))+1) next_warnid  from bus_monitor_warn where 1=1
+        <if test="runid!=null and runid!=''">
+            and runid=#{runid}
+        </if>
+    </select>
+
+    <select id="listByCondition" parameterType="java.util.Map" resultType="com.xhw.logcollection.model.dto.MonitorWarnDto">
+        select * from bus_monitor_warn mw
+        left join bus_monitor_task_runlog mtr on mtr.runid = mw.runid
+        left join bus_monitor_task mt on mtr.rwbh = mt.rwbh
+        where 1=1
+        <if test="rwmc!=null and rwmc!='' ">
+            and lower(mt.rwmc) like '%'||lower(#{rwmc})||'%'
+        </if>
+        <if test="cwlx!=null and cwlx!=''">
+            and mw.cwlx = #{cwlx}
+        </if>
+        <if test="cwcode!=null and cwcode!=''">
+            and mw.cwcode = #{cwcode}
+        </if>
+        <if test="sfycl!=null and sfycl!=''">
+            and mw.sfycl = #{sfycl}
+        </if>
+        <if test="runid!=null and runid!=''">
+            and mw.runid = #{runid}
+        </if>
+        <if test="warnid!=null and warnid!=''">
+            and mw.warnid = #{warnid}
+        </if>
+        order by mw.cwsj desc
+    </select>
+</mapper>

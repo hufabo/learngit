@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.job.mapper.BusCfgGlobalMapper" >
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.job.entity.BusCfgGlobal" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="GJZ" property="gjz" jdbcType="VARCHAR" />
+    <result column="CSMC" property="csmc" jdbcType="VARCHAR" />
+    <result column="MRZ" property="mrz" jdbcType="VARCHAR" />
+    <result column="QYBJ" property="qybj" jdbcType="CHAR" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    GJZ, CSMC, MRZ, QYBJ, GXSJ
+  </sql>
+
+  <select id="listByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM BUS_CFG_GLOBAL g WHERE 1=1
+    <if test="gjz!=null and gjz!=''">
+      and g.gjz like '%'||#{gjz}||'%'
+    </if>
+    <if test="csmc!=null and csmc!=''">
+      and g.csmc like '%'||#{csmc}||'%'
+    </if>
+    <if test="qybj!=null and qybj!=''">
+      and g.qybj=#{qybj}
+    </if>
+    <if test="startTime!=null and startTime!=''">
+      and g.GXSJ >= to_date(#{startTime} || ' 00:00:00','yyyy-MM-dd hh24:mi:ss')
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and g.GXSJ &lt; to_date(#{endTime} || ' 23:59:59','yyyy-MM-dd hh24:mi:ss')
+    </if>
+    order by g.gjz asc
+  </select>
+
+  <delete id="deleteALL">
+    delete from bus_cfg_global
+  </delete>
+
+</mapper>

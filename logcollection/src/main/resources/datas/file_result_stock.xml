@@ -1,0 +1,13 @@
+<root>
+<head>
+    <code>1</code>
+    <message>数据下载成功</message>
+    <rownum>1</rownum>
+</head>
+<body>
+    <drvexam>
+        <wjm>12345660120180411000048</wjm>
+        <status>4</status>
+    </drvexam>
+</body>
+</root>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!--加载属性文件-->
+    <!--<properties resource="application.properties"/>-->
+    <!--mybatis生成工具的帮助文档可以看：-->
+    <!--英文：http://www.mybatis.org/generator/usage/mysql.html-->
+    <!--中文：http://www.mybatis.tk/-->
+    <!--中文：http://mbg.cndocs.tk/-->
+
+    <!--添加你本地的驱动jar-->
+    <classPathEntry location="D:\wokspace\IdeaProjectsxhw\ojdbc6.jar"/>
+    
+    <context id="context" targetRuntime="MyBatis3">
+
+        <!--设置编码格式-->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+
+        <!--&lt;!&ndash; 格式化java代码 &ndash;&gt;-->
+        <!--<property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>-->
+        <!--&lt;!&ndash; 格式化XML代码 &ndash;&gt;-->
+        <!--<property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>-->
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="caseSensitive" value="false"/>
+        </plugin>
+        <!--&lt;!&ndash; 格式化java代码 &ndash;&gt;-->
+        <!--<property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>-->
+        <!--&lt;!&ndash; 格式化XML代码 &ndash;&gt;-->
+        <!--<property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>-->
+
+        <!-- java类型处理器
+        用于处理DB中的类型到Java中的类型，默认使用JavaTypeResolverDefaultImpl；
+        注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型；
+        -->
+        <!--<javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">-->
+        <!--&lt;!&ndash; -->
+        <!--true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型-->
+        <!--false：默认,-->
+        <!--scale>0;length>18：使用BigDecimal;-->
+        <!--scale=0;length[10,18]：使用Long；-->
+        <!--scale=0;length[5,9]：使用Integer；-->
+        <!--scale=0;length<5：使用Short；-->
+        <!--&ndash;&gt;-->
+        <!--<property name="forceBigDecimals" value="false"/>-->
+        <!--</javaTypeResolver>-->
+
+
+        <commentGenerator type="MyCommentGenerator ">
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+
+        <!--添加你的 JDBC 连接信息-->
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@180.168.178.174:15237:ORCL" userId="lc" password="lc">
+            <!-- 针对oracle数据库 -->
+            <property name="remarksReporting" value="true"></property>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--要生成的 pojo 模块位置-->
+        <!--com.xhw.nbiot.model.entity.user-->
+        <javaModelGenerator targetPackage="com.xhw.logcollection.job.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--要生成的 Mapper.xml 文件位置-->
+        <sqlMapGenerator targetPackage="job" targetProject="src/main/resources/mybatis">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--要生成的 Mapper 接口类-->
+        <javaClientGenerator targetPackage="com.xhw.logcollection.job.mapper" targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+
+        <!--要根据哪张表生成，要在这里配置-->
+        <!--用百分号表示生成所有表,可以直接省去一个一个写 <table tableName="%" /> -->
+        <!--<table tableName="%" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+        <!--<table tableName="sys_cfg_register" domainObjectName="Register" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table tableName="sys_cfg_datasource" domainObjectName="DataSource" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+         <table tableName="sys_cfg_agent" domainObjectName="Agent" enableCountByExample="false"
+                enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table tableName="sys_cfg_share_protocol" domainObjectName="ShareProtocol" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+
+        <table tableName="bus_monitor_heartbeat" domainObjectName="BusMonitorHeartbeat" enableCountByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+
+    </context>
+</generatorConfiguration>

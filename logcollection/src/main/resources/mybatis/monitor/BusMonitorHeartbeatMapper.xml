@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xhw.logcollection.monitor.mapper.BusMonitorHeartbeatMapper" >
+
+  <resultMap id="BaseResultMap" type="com.xhw.logcollection.monitor.entity.BusMonitorHeartbeat" >
+    <id column="BABH" property="babh" jdbcType="VARCHAR" />
+    <id column="SBZQ" property="sbzq" jdbcType="VARCHAR" />
+    <result column="CPUSYL" property="cpusyl" jdbcType="DECIMAL" />
+    <result column="NCSYL" property="ncsyl" jdbcType="DECIMAL" />
+    <result column="CPSYL" property="cpsyl" jdbcType="DECIMAL" />
+    <result column="XTFZ" property="xtfz" jdbcType="DECIMAL" />
+    <result column="GXSJ" property="gxsj" jdbcType="TIMESTAMP" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="queryHeartbeatReportDatas" parameterType="java.util.Map" resultType="java.util.Map">
+    select mh.babh,to_char(mh.gxsj, '${pattern}') time,
+    avg(mh.cpusyl) cpusyl,avg(mh.ncsyl) ncsyl,
+    avg(mh.cpsyl) cpsyl,avg(mh.xtfz) xtfz from bus_monitor_heartbeat mh
+    where 1=1
+    <if test="startTime!=null and startTime!=''">
+      and mh.gxsj &gt;= to_date(#{startTime},'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    <if test="endTime!=null and endTime!=''">
+      and mh.gxsj &lt; to_date(#{endTime},'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    group by mh.babh,to_char(mh.gxsj, '${pattern}')
+    order by to_char(mh.gxsj, '${pattern}')
+  </select>
+
+  <select id="listSync" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM bus_monitor_heartbeat mh WHERE 1=1
+    <if test="gxsj!=null and gxjs!=null">
+      and mh.gxsj>=#{gxsj}
+    </if>
+    <if test="id!=null and id!=null">
+      and mh.id>=#{id}
+    </if>
+  </select>
+
+</mapper>
